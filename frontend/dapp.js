@@ -114,6 +114,9 @@ const dApp = {
                   <img id="dapp-image" src="https://gateway.pinata.cloud/ipfs/${token.image.replace("ipfs://", "")}">
                   <span id="dapp-name" class="card-title">${token.name}</span>
                 </div>
+                <div class="card-content">
+                <p>${token.description}</p>
+                </div>
                 <div class="card-action">
                 <h6 align = "left"> Bid: </h6>
                   ${isAuctionLive ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
@@ -226,7 +229,7 @@ const dApp = {
 
     const pinata_api_key = $("#dapp-pinata-api-key").val();
     const pinata_secret_api_key = $("#dapp-pinata-secret-api-key").val();
-
+    const description = $("#dapp-description").val();
     const raw_expiry_date = $("#dapp-expiry-date").val();
     const raw_expiry_time = $("#dapp-expiry-time").val();
 
@@ -290,7 +293,7 @@ const dApp = {
 
       
       const reference_json = JSON.stringify({
-        pinataContent: { name, image: image_uri },
+        pinataContent: { name, image: image_uri , description},
         pinataOptions: {cidVersion: 1}
       });
 
@@ -318,6 +321,7 @@ const dApp = {
         M.toast({ html: "Transaction Mined! Refreshing UI..." });
         $("#dapp-register-name").val("");
         $("#dapp-register-image").val("");
+        $("#dapp-description").val("");
         await this.updateUI();
       });
 
