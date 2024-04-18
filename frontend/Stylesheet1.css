@@ -144,3 +144,11 @@ body {
 .dapp-admin input[type="text"]:hover, .dapp-admin input[type="password"]:hover, .dapp-admin input[type="file"]:hover {
   background-color: #455A64; /* Darken input background on hover */
 }
+
+.fixed-size-image {
+  width: auto;  /* 宽度自动，但高度固定，保持图片的比例 */
+  height: 500px; /* 高度固定为200px */
+  object-fit: contain; /* 图片会被缩放以在给定的高度内完整显示，而不裁剪 */
+  display: block; /* 确保图片是块级元素，可以应用margin */
+  margin: 0 auto; /* 图片居中显示 */
+}
