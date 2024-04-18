@@ -203,7 +203,6 @@ const dApp = {
 
     const pinata_api_key = $("#dapp-pinata-api-key").val();
     const pinata_secret_api_key = $("#dapp-pinata-secret-api-key").val();
-<<<<<<< HEAD
     const description = $("#dapp-description").val();
     const raw_expiry_date = $("#dapp-expiry-date").val();
     const raw_expiry_time = $("#dapp-expiry-time").val();
