@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0x6DA24926d52B85f9cd776B75975165E2A8302F16";
+const contractAddress = "0xF6D809065f70b3323e0Ef2062C3da2eB4F9e1fa5";
 
 
 const dApp = {
@@ -105,7 +105,7 @@ const dApp = {
               <div class="card cardsize">
                 <div class="card-image">
                   <img id="dapp-image" src="https://gateway.pinata.cloud/ipfs/${token.image.replace("ipfs://", "")}" class="fixed-size-image">
-                  <span id="dapp-name" class="card-title">${token.name}</span>
+                  <span id="dapp-name" class="card-title" style="background-color: rgba(0, 0, 0, 0.5); color: white; padding: 5px;">${token.name}</span>
                 </div>
                 <div class="card-content">
                 <p>${token.description}</p>
