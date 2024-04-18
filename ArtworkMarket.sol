@@ -13,7 +13,7 @@ contract ArtworkMarket is ERC721Full, Ownable {
         require(_exists(token_id), "Art not registered!");
         _;
     }
-    function registerArt(string memory uri,uint startingPrice, , uint startTime, uint expiryTime) public payable onlyOwner {
+    function registerArt(string memory uri,uint startingPrice, uint startTime, uint expiryTime) public payable onlyOwner {
         token_ids.increment();
         uint token_id = token_ids.current();
         _mint(foundation_address, token_id);

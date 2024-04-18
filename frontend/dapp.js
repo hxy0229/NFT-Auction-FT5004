@@ -173,6 +173,12 @@ const dApp = {
     // hide or show admin functions based on contract ownership
     this.setAdmin();
   },
+  inputTimeToTimestamp: function(raw_date_str, raw_time_str) {
+    let date_list = raw_date_str.split("-");
+    let time_list = raw_time_str.split(":");
+    let final_datetime = new Date(date_list[0], date_list[1] - 1, date_list[2], time_list[0], time_list[1], 0);
+    return final_datetime.getTime() / 1000;
+  },
   bid: async function(event) {
     const tokenId = $(event.target).attr("token-id");
     const wei = Number($(event.target).prev().val());
