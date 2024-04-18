@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0x05CaD9CC611baA97b6880c778c642201b57F6732";
+const contractAddress = "0x5b861f22c732ca20ca8E307D9d6F811529b13974";
 
 
 const dApp = {
