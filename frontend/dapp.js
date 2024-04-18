@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0x28c77E5D75BB2799aFC0657b7b87655df2148Fec";
+const contractAddress = "0x05CaD9CC611baA97b6880c778c642201b57F6732";
 
 
 const dApp = {
@@ -203,7 +203,6 @@ const dApp = {
 
     const pinata_api_key = $("#dapp-pinata-api-key").val();
     const pinata_secret_api_key = $("#dapp-pinata-secret-api-key").val();
-<<<<<<< HEAD
     const description = $("#dapp-description").val();
     const raw_expiry_date = $("#dapp-expiry-date").val();
     const raw_expiry_time = $("#dapp-expiry-time").val();
