@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0x05CaD9CC611baA97b6880c778c642201b57F6732";
+const contractAddress = "0x6DA24926d52B85f9cd776B75975165E2A8302F16";
 
 
 const dApp = {
@@ -41,6 +41,8 @@ const dApp = {
             { defaultAccount: this.accounts[0] }
           ),
           owner: await this.artContract.methods.ownerOf(i).call(),
+          startTime: await this.artContract.methods.getStartTime(i).call(),
+          expiryTime: await this.artContract.methods.getExpiryTime(i).call(),
           ...token_json
         });
       } catch (e) {
@@ -60,6 +62,9 @@ const dApp = {
     console.log("updating UI");
     // refresh variables
     await this.collectVars();
+    console.log("Collect Vars Finished");
+    let currentTimestamp = Math.floor(Date.now() / 1000);
+    console.log("currentTimestamp", currentTimestamp, typeof(currentTimestamp));
  
     $("#dapp-tokens").html("");
     this.tokens.forEach((token) => {
@@ -69,6 +74,9 @@ const dApp = {
         console.log("highestBidder", highestBidder);
         let highestBid = `  ${token.highestBid}`;
         let auctionStatus = `   ${token.auctionEnded}`;
+        console.log("token.startTime", token.startTime);
+        let startTimeStr = new Date(Number(token.startTime) * 1000).toString();
+        let expiryTimeStr = new Date(Number(token.expiryTime) * 1000).toString();
 
         let isAuctionStart = currentTimestamp >= token.startTime;
         let isAuctionExpired = currentTimestamp >= token.expiryTime;
@@ -83,12 +91,14 @@ const dApp = {
         let bidInput = `<input type="number" min="${token.highestBid + 1}" name="dapp-wei" value="${token.highestBid + 1}" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>`
 
          
-        let bid = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.bid(event);">Bid</a>`;
+        let bid = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.bid(event);" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>Bid</a>`;
         let owner = `Final Artwork Owner: ${token.owner}`;
         let URL = `Final Artwork Owner: ${token.URL}`;
         /* console.log('owner', owner) */
-        let withdraw = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.withdraw(event)">Withdraw</a>`
+        let withdraw = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.withdraw(event)" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>Withdraw</a>`
         let pendingWithdraw = `Balance: ${token.pendingReturn} wei`;
+        let expiryTimeHTML = `<p align="left"> Auction Expiry Time: ${expiryTimeStr} </p>`;
+
 
           $("#dapp-tokens").append(
             `<div class="col m6">
@@ -102,11 +112,14 @@ const dApp = {
                 </div>
                 <div class="card-action">
                 <h6 style="font-family: 'Roboto', sans-serif; font-size: 16px; color: #333; font-weight: bold;">Bid:</h6>
-                  <input type="number" min="${token.highestBid + 1}" name="dapp-wei" value="${token.highestBid + 1}" ${token.auctionEnded ? 'disabled' : ''}>
+                  ${isAuctionLive ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
                   ${token.auctionEnded ? owner : bid}
                   ${token.pendingReturn > 0 ? withdraw : ''}
                   ${this.isAdmin && !token.auctionEnded ? endAuction : ''} <br>
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
+                <p align = "left"> Current Highest Bid: ${highestBid} wei </p>
+                <p align = "left"> Auction Start Time: ${startTimeStr} </p>
+                ${Number(token.expiryTime) == 9876543210 ? '' : expiryTimeHTML}
                 </div>
               </div>
             </div>`
@@ -296,9 +309,10 @@ const dApp = {
       M.toast({ html: `Success. Reference URI located at ${reference_uri}.` });
       M.toast({ html: "Sending to blockchain..." });
 
-      // console.log("Starting Bid in Wei:", startingBidWei);
+      console.log("start_timestamp", start_timestamp);
+      console.log("expiry_timestamp", expiry_timestamp);
 
-      await this.artContract.methods.registerArt(reference_uri,startingBid).send({from: this.accounts[0]}).on("receipt", async (receipt) => {
+      await this.artContract.methods.registerArt(reference_uri,startingBid,start_timestamp,expiry_timestamp).send({from: this.accounts[0]}).on("receipt", async (receipt) => {
         M.toast({ html: "Transaction Mined! Refreshing UI..." });
         $("#dapp-register-name").val("");
         $("#dapp-register-image").val("");
