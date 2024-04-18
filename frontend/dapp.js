@@ -72,6 +72,7 @@ const dApp = {
       try {
         let endAuction = `<a token-id="${token.tokenId}" class="dapp-admin btn btn-info" style="display:none;" href="#" onclick="dApp.endAuction(event)">End Auction</a>`;
         let highestBidder = `: ${token.owner}`;
+        console.log("highestBidder", highestBidder);
         let highestBid = `  ${token.highestBid}`;
         let auctionStatus = `   ${token.auctionEnded}`;
         console.log("token", token);
@@ -90,10 +91,10 @@ const dApp = {
         let isAuctionStart = currentTimestamp >= token.startTime;
         let isAuctionExpired = currentTimestamp >= token.expiryTime;
 
-        if (isAuctionExpired && !token.auctionEnded) {
-          console.log("Auction is expired and auction not ended yet");
-          this.endAuction({target: { "token-id": token.tokenId }});
-        }
+        // if (isAuctionExpired && !token.auctionEnded) {
+        //   console.log("Auction is expired and auction not ended yet");
+        //   this.endAuction({target: { "token-id": token.tokenId }});
+        // }
 
         let isAuctionLive = isAuctionStart && !isAuctionExpired;
 
