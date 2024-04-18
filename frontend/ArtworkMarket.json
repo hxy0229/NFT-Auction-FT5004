@@ -73,6 +73,16 @@
 			{
 				"name": "startingPrice",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "expiryTime",
+				"type": "uint256"
 			}
 		],
 		"name": "registerArt",
