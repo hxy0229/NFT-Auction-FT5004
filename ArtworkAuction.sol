@@ -4,6 +4,8 @@ contract ArtworkAuction {
     address payable public beneficiary;
     // Current state of the auction.
     address public highestBidder;
+    uint public startTime;
+    uint public expiryTime;
     uint public highestBid;
     uint public startingPrice; // Added starting price variable
     // Allowed withdrawals of previous bids
@@ -22,10 +24,18 @@ contract ArtworkAuction {
     /// seconds bidding time on behalf of the
     /// beneficiary address `_beneficiary`.
     constructor(
-        address payable _beneficiary
+        address payable _beneficiary,
+        uint _startTime,
+        uint _expiryTime
     ) public {
         deployer = msg.sender; // set as the ArtworkMarket
         beneficiary = _beneficiary;
+        startTime = _startTime;
+        expiryTime = _expiryTime;
+    }
+
+    function getElapsedTime() public view returns (uint) {
+        return (block.timestamp - startTime);
     }
 
     function setStartingPrice(uint _startingPrice) public {
