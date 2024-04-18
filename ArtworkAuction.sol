@@ -1,12 +1,11 @@
 pragma solidity >=0.4.22 <0.6.0;
 contract ArtworkAuction {
     address deployer;
-    uint public startTime;
-    uint public expiryTime;
     address payable public beneficiary;
     // Current state of the auction.
     address public highestBidder;
     uint public highestBid;
+    uint public startingPrice; // Added starting price variable
     // Allowed withdrawals of previous bids
     mapping(address => uint) pendingReturns;
     // Set to true at the end, disallows any change.
@@ -23,27 +22,27 @@ contract ArtworkAuction {
     /// seconds bidding time on behalf of the
     /// beneficiary address `_beneficiary`.
     constructor(
-        address payable _beneficiary,
-        uint _startTime,
-        uint _expiryTime
+        address payable _beneficiary
     ) public {
         deployer = msg.sender; // set as the ArtworkMarket
         beneficiary = _beneficiary;
-        startTime = _startTime;
-        expiryTime = _expiryTime;
     }
 
-    function getElapsedTime() public view returns (uint) {
-        return (block.timestamp - startTime);
+    function setStartingPrice(uint _startingPrice) public {
+        // require(msg.sender == deployer, "Only deployer can set the starting price");
+        require(startingPrice >= 0, "Starting price has already been set");
+        startingPrice = _startingPrice;
     }
+
+
     /// Bid on the auction with the value sent
     /// together with this transaction.
     /// The value will only be refunded if the
     /// auction is not won.
-
     function bid(address payable sender) public payable {
         // If the bid is not higher, send the
         // money back.
+        require(msg.value >= startingPrice, "Bid must be at least the starting price.");
         require(
             msg.value > highestBid,
             "There already is a higher bid."

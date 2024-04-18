@@ -50,7 +50,7 @@
   <div id="dapp-tokens" class="row">
     <div class="card">
       <div class="card-image">
-        <img id="dapp-image" src="">
+        <img id="dapp-image" src="" class="card-title">
         <span id="dapp-name" class="card-title">Artwork Name</span>
       </div>
       <div class="card-action">
@@ -67,7 +67,9 @@
             <legend class="btn btn-secondary float-left">Register new Artwork</legend>
         </div>
           <span class="card-title"><input id="dapp-register-name" placeholder="ArtWork name..." /></span>
-          <p style="text-align:left">Image: <input id="dapp-copyright-image" type="file" /></p>
+          <p>Image: <input id="dapp-copyright-image" type="file" /></p>
+
+          <p><input id="dapp-starting-bid" type="number" placeholder="Enter starting bid..."/></p>
 
           <p><input id="dapp-pinata-api-key" placeholder="Pinata API Key"/></p>
           <p><input id="dapp-pinata-secret-api-key" placeholder="Pinata Secret API Key" type="password" /></p>
