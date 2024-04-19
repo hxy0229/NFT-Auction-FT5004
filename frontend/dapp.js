@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0x6DA24926d52B85f9cd776B75975165E2A8302F16";
+const contractAddress = "0x538FC7fD924944D1A3b8c98b5D73FFCDA5496aa7";
 
 
 const dApp = {
@@ -92,8 +92,7 @@ const dApp = {
 
          
         let bid = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.bid(event);" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>Bid</a>`;
-        let owner = `Final Artwork Owner: ${token.owner}`;
-        let URL = `Final Artwork Owner: ${token.URL}`;
+        let owner = `<p align="left"> Final Artwork Owner: ${token.owner} </p>`;
         /* console.log('owner', owner) */
         let withdraw = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.withdraw(event)" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>Withdraw</a>`
         let pendingWithdraw = `Balance: ${token.pendingReturn} wei`;
@@ -105,19 +104,19 @@ const dApp = {
               <div class="card cardsize">
                 <div class="card-image">
                   <img id="dapp-image" src="https://gateway.pinata.cloud/ipfs/${token.image.replace("ipfs://", "")}" class="fixed-size-image">
-                  <span id="dapp-name" class="card-title">${token.name}</span>
+                  <span id="dapp-name" class="card-title" style="background-color: rgba(0, 0, 0, 0.5); color: white; padding: 5px;">${token.name}</span>
                 </div>
                 <div class="card-content">
                 <p>${token.description}</p>
                 </div>
                 <div class="card-action">
                 <h6 style="font-family: 'Roboto', sans-serif; font-size: 16px; color: #333; font-weight: bold;">Bid:</h6>
-                  ${isAuctionLive ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
-                  ${token.auctionEnded ? owner : bid}
-                  ${token.pendingReturn > 0 ? withdraw : ''}
-                  ${this.isAdmin && !token.auctionEnded ? endAuction : ''} <br>
+                  ${isAuctionLive && !token.auctionEnded ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
+                  ${token.auctionEnded || isAuctionExpired ? owner : bid}
+                  ${token.pendingReturn > 0 && isAuctionLive && !token.auctionEnded ? withdraw : ''}
+                  ${this.isAdmin && !token.auctionEnded && !isAuctionExpired ? endAuction : ''} <br>
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
-                <p align = "left"> Current Highest Bid: ${highestBid} wei </p>
+                <p align = "left"> ${token.auctionEnded || isAuctionExpired? "Deal Price" : "Current Highest Bid"}: ${highestBid} wei </p>
                 <p align = "left"> Auction Start Time: ${startTimeStr} </p>
                 ${Number(token.expiryTime) == 9876543210 ? '' : expiryTimeHTML}
                 </div>
