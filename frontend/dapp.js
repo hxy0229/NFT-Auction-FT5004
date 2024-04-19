@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0x915059Cd78596F0B2A93Dc919f4bC4e3D3d7d982";
+const contractAddress = "0x538FC7fD924944D1A3b8c98b5D73FFCDA5496aa7";
 
 
 const dApp = {
@@ -92,8 +92,7 @@ const dApp = {
 
          
         let bid = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.bid(event);" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>Bid</a>`;
-        let owner = `Final Artwork Owner: ${token.owner}`;
-        let URL = `Final Artwork Owner: ${token.URL}`;
+        let owner = `<p align="left"> Final Artwork Owner: ${token.owner} </p>`;
         /* console.log('owner', owner) */
         let withdraw = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.withdraw(event)" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>Withdraw</a>`
         let pendingWithdraw = `Balance: ${token.pendingReturn} wei`;
@@ -112,9 +111,9 @@ const dApp = {
                 </div>
                 <div class="card-action">
                 <h6 style="font-family: 'Roboto', sans-serif; font-size: 16px; color: #333; font-weight: bold;">Bid:</h6>
-                  ${isAuctionLive ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
-                  ${token.auctionEnded ? owner : bid}
-                  ${token.pendingReturn > 0 ? withdraw : ''}
+                  ${isAuctionLive && !token.auctionEnded ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
+                  ${token.auctionEnded || isAuctionExpired ? owner : bid}
+                  ${token.pendingReturn > 0 && isAuctionLive && !token.auctionEnded ? withdraw : ''}
                   ${this.isAdmin && !token.auctionEnded && !isAuctionExpired ? endAuction : ''} <br>
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
                 <p align = "left"> ${token.auctionEnded || isAuctionExpired? "Deal Price" : "Current Highest Bid"}: ${highestBid} wei </p>
