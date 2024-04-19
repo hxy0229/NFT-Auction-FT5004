@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0xF6D809065f70b3323e0Ef2062C3da2eB4F9e1fa5";
+const contractAddress = "0x6DA24926d52B85f9cd776B75975165E2A8302F16";
 
 
 const dApp = {
@@ -115,9 +115,9 @@ const dApp = {
                   ${isAuctionLive ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
                   ${token.auctionEnded ? owner : bid}
                   ${token.pendingReturn > 0 ? withdraw : ''}
-                  ${this.isAdmin && !token.auctionEnded ? endAuction : ''} <br>
+                  ${this.isAdmin && !token.auctionEnded && !isAuctionExpired ? endAuction : ''} <br>
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
-                <p align = "left"> Current Highest Bid: ${highestBid} wei </p>
+                <p align = "left"> ${token.auctionEnded || isAuctionExpired? "Deal Price" : "Current Highest Bid"}: ${highestBid} wei </p>
                 <p align = "left"> Auction Start Time: ${startTimeStr} </p>
                 ${Number(token.expiryTime) == 9876543210 ? '' : expiryTimeHTML}
                 </div>
