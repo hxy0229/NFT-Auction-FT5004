@@ -115,9 +115,9 @@ const dApp = {
                   ${isAuctionLive ? bidInput : !isAuctionStart ? 'Auction not started yet, thank you for your patience!' : 'Auction has ended, thank you for your participation!'}
                   ${token.auctionEnded ? owner : bid}
                   ${token.pendingReturn > 0 ? withdraw : ''}
-                  ${this.isAdmin && !token.auctionEnded ? endAuction : ''} <br>
+                  ${this.isAdmin && !token.auctionEnded && !isAuctionExpired ? endAuction : ''} <br>
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
-                <p align = "left"> Current Highest Bid: ${highestBid} wei </p>
+                <p align = "left"> ${token.auctionEnded || isAuctionExpired? "Deal Price" : "Current Highest Bid"}: ${highestBid} wei </p>
                 <p align = "left"> Auction Start Time: ${startTimeStr} </p>
                 ${Number(token.expiryTime) == 9876543210 ? '' : expiryTimeHTML}
                 </div>
