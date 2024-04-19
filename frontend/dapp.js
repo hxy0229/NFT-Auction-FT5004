@@ -1,6 +1,6 @@
 // @TODO: Update this address to match your deployed ArtworkMarket contract!
 // const contractAddress = "0x7a377fAd8c7dB341e662c93A79d0B0319DD3DaE8";
-const contractAddress = "0x538FC7fD924944D1A3b8c98b5D73FFCDA5496aa7";
+const contractAddress = "0x47ac670847AA7B37248a3998C41ae132A77D7657";
 
 
 const dApp = {
@@ -43,6 +43,7 @@ const dApp = {
           owner: await this.artContract.methods.ownerOf(i).call(),
           startTime: await this.artContract.methods.getStartTime(i).call(),
           expiryTime: await this.artContract.methods.getExpiryTime(i).call(),
+          startPrice: await this.artContract.methods.getStartPrice(i).call(),
           ...token_json
         });
       } catch (e) {
@@ -71,8 +72,10 @@ const dApp = {
       try {
         let endAuction = `<a token-id="${token.tokenId}" class="dapp-admin btn btn-info" style="display:none;" href="#" onclick="dApp.endAuction(event)">End Auction</a>`;
         let highestBidder = `: ${token.owner}`;
-        console.log("highestBidder", highestBidder);
+        
         let highestBid = `  ${token.highestBid}`;
+        let startPriceHTML = `<p align="left"> Start Price: ${token.startPrice} wei</p>`;
+        console.log("startPrice", token.startPrice);
         let auctionStatus = `   ${token.auctionEnded}`;
         console.log("token.startTime", token.startTime);
         let startTimeStr = new Date(Number(token.startTime) * 1000).toString();
@@ -95,7 +98,7 @@ const dApp = {
         let owner = `<p align="left"> Final Artwork Owner: ${token.owner} </p>`;
         /* console.log('owner', owner) */
         let withdraw = `<a token-id="${token.tokenId}" href="#" class="btn btn-info" onclick="dApp.withdraw(event)" ${token.auctionEnded || !isAuctionLive ? 'disabled' : ''}>Withdraw</a>`
-        let pendingWithdraw = `Balance: ${token.pendingReturn} wei`;
+        let pendingWithdraw = `Previous Bid: ${token.pendingReturn} wei`;
         let expiryTimeHTML = `<p align="left"> Auction Expiry Time: ${expiryTimeStr} </p>`;
 
 
@@ -116,6 +119,8 @@ const dApp = {
                   ${token.pendingReturn > 0 && isAuctionLive && !token.auctionEnded ? withdraw : ''}
                   ${this.isAdmin && !token.auctionEnded && !isAuctionExpired ? endAuction : ''} <br>
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
+                
+                ${startPriceHTML}
                 <p align = "left"> ${token.auctionEnded || isAuctionExpired? "Deal Price" : "Current Highest Bid"}: ${highestBid} wei </p>
                 <p align = "left"> Auction Start Time: ${startTimeStr} </p>
                 ${Number(token.expiryTime) == 9876543210 ? '' : expiryTimeHTML}
